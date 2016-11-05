@@ -19,7 +19,22 @@ def test_detect():
 
     env_signal = detect(raw_signal)
 
+    # calculate rms between modulation function and detected signal
     rms = np.sqrt(np.mean(np.power(np.subtract(env_signal, modulation), 2)))
 
-    assert rms < 0.05
+    assert rms < 0.005
+
+    # test output dimensions for matrix input
+    raw_mat = np.array([raw_signal for ii in range(0, 4)])
+    env_mat = detect(raw_mat)
+
+    assert np.array_equal(raw_mat.shape, env_mat.shape)
+
+    # test for detection along fastest changing dim
+    env_mat_row = np.squeeze(env_mat[2])
+
+    assert np.allclose(env_mat_row, env_signal, rtol=1e-05, atol=1e-08,
+                       equal_nan=True)
+
+
 
