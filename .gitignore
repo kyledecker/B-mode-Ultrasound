@@ -1,0 +1,5 @@
+*.pyc
+*.swg
+*.pdf
+.cache
+.idea
