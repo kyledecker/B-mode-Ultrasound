@@ -1,0 +1,3 @@
+[submodule "bmode_ultrasound"]
+	path = bmode_ultrasound
+	url = git@gitlab.oit.duke.edu:medical-device-software-design/bmode_ultrasound.git
