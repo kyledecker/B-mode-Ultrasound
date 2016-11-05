@@ -4,7 +4,7 @@ sys.path.insert(0, os.path.abspath('./src/'))
 
 def test_reshape_rf():
     import numpy as np
-    import reshape_rf *
+    from manipulate import reshape_rf
 
     # test reshaping and verify dimensions
     row_samples = 20
@@ -39,24 +39,3 @@ def test_reshape_rf():
 
     dims = matrix.shape
     assert np.array_equal(dims, [col_samples, row_samples])
-
-    # test exception for non-1d inputs
-    exception = False
-    try:
-        vector_2d = np.array([[1, 1] [1, 1]])
-        matrix = reshape_rf(vector_2d, row_samples, col_samples)
-    except:
-        exception = True
-
-    assert exception
-
-    # test exception for mismatched matrix dims
-    exception = False
-    try:
-        vector = [ii for ii in range(0, row_samples*(col_samples-1))]
-        matrix = reshape_rf(vector, row_samples, col_samples)
-    except:
-        exception = True
-
-    assert exception
-
