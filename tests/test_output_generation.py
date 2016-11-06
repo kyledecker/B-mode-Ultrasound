@@ -4,11 +4,19 @@ sys.path.insert(0, os.path.abspath('./src/'))
 
 
 def test_generate_outputs():
-    import os.path
+    import os
     from output_generation import generate_image
+    from output_generation import create_dir
 
-    mat = [[ax for ax in range(0, 11)] for lat in range(0, 20)]
-    dynamic_range = [0, 5]
+    # test create directory function and remove directory when finished
+    filepath = './test_folder/'
+    create_dir(filepath)
+    assert os.path.exists(filepath)
+    os.rmdir(filepath)
+
+    # test output image saving
+    mat = [[ax+lat for ax in range(0, 11)] for lat in range(0, 20)]
+    dynamic_range = [0, 25]
     dz = 1
     dx = 2
 
