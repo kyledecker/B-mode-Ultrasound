@@ -9,7 +9,7 @@ if __name__ == "__main__":
     save_png = True
     display = False
     save_path = './outputs/image.png'
-    drange = [-50 ,0]
+    drange = [-50, 0]
 
     # load in rf data from binary and scan parameters from JSON
 
@@ -67,7 +67,3 @@ if __name__ == "__main__":
     :param save_flag: enable to save .png
     :param display_flag: enable to display image
     """
-
-
-
-

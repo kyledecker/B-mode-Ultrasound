@@ -1,3 +1,6 @@
+import sys
+
+
 def calc_ticks(image, dz=1, dx=1):
     """
     calculate axial and lateral mesh using image dimensions and input values
@@ -49,6 +52,24 @@ def calc_b_geometry(fs, beam_spacing, c=1540., units='cm'):
     return dz, dx
 
 
+def create_dir(filepath):
+    """
+    create new folder if directory in file path does not exist
+
+    :param filepath: file path and name
+    """
+    import os
+    out_dir = os.path.dirname(filepath)
+    if not os.path.exists(out_dir):
+        try:
+            os.makedirs(out_dir)
+        except:
+            msg = '[create_dir] failed to create ' + out_dir + \
+                  '. Exiting script...'
+            print(msg)
+            sys.exit()
+
+
 def generate_image(image, dz=1, dx=1, dynamic_range=[0, 1],
                    z_label='z', x_label='x', filename='./image.png',
                    save_flag=True, display_flag=False):
@@ -61,11 +82,12 @@ def generate_image(image, dz=1, dx=1, dynamic_range=[0, 1],
     :param dynamic_range: displayed dynamic range
     :param z_label: label for z (axial) axis
     :param x_label: label for x (lateral) axis
-    :param filename: location and name of saved .png
+    :param filename: file path and name of saved .png
     :param save_flag: enable to save .png
     :param display_flag: enable to display image
     """
     import matplotlib.pyplot as plt
+    import os
 
     axi, lat = calc_ticks(image, dz, dx)
 
@@ -77,6 +99,7 @@ def generate_image(image, dz=1, dx=1, dynamic_range=[0, 1],
     plt.colorbar()
 
     if save_flag:
+        create_dir(filename)
         plt.savefig(filename)
 
     if display_flag:
