@@ -1,0 +1,6 @@
+image: python:3.5
+
+test:
+	script:
+	- pip intall -r requirements.txt
+	- py.test -v --cov
