@@ -86,8 +86,11 @@ def generate_image(image, dz=1, dx=1, dynamic_range=[0, 1],
     :param save_flag: enable to save .png
     :param display_flag: enable to display image
     """
+    if not display_flag:
+        import matplotlib
+        matplotlib.use('Agg')
+
     import matplotlib.pyplot as plt
-    import os
 
     axi, lat = calc_ticks(image, dz, dx)
 
