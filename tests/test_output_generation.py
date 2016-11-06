@@ -9,8 +9,10 @@ def test_generate_outputs():
 
     image = [ii for ii in range(0,11)]*20
     dynamic_range = [0, 10]
+    axi_spacing = 1
+    lat_spacing = 2
 
     filename = './outputs/test.png'
-    generate_image(image, dynamic_range, filename)
+    generate_image(axi_spacing, lat_spacing, image, dynamic_range, filename)
 
     assert os.path.isfile(filename)
