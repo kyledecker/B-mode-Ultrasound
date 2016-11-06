@@ -7,12 +7,12 @@ def test_generate_outputs():
     import os.path
     from output_generation import generate_image
 
-    image = [ii for ii in range(0,11)]*20
-    dynamic_range = [0, 10]
-    axi_spacing = 1
-    lat_spacing = 2
+    mat = [[ax for ax in range(0, 11)] for lat in range(0, 20)]
+    dynamic_range = [0, 5]
+    dz = 1
+    dx = 2
 
     filename = './outputs/test.png'
-    generate_image(axi_spacing, lat_spacing, image, dynamic_range, filename)
+    generate_image(mat, dz, dx, dynamic_range, filename=filename)
 
     assert os.path.isfile(filename)
