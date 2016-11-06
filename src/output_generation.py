@@ -1,7 +1,7 @@
 def calc_ticks(image, dz=1, dx=1):
     """
-    calculate axis tick values using image dimensions and input values for
-    axial and lateral sampling intervals
+    calculate axial and lateral mesh using image dimensions and input values
+    for axial and lateral sampling intervals
 
     :param image: input image for display
     :param dz: axial sampling interval
@@ -11,10 +11,12 @@ def calc_ticks(image, dz=1, dx=1):
     import numpy as np
 
     image = np.array(image)
-    zdim, xdim = image.shape
+    xdim, zdim = image.shape
 
-    axi = np.array([dz*ii for ii in range(0, zdim)])
-    lat = np.array([dx*ii for ii in range(0, xdim)])
+    x = np.array([dx*ii for ii in range(0, xdim)])
+    z = np.array([dz*ii for ii in range(0, zdim)])
+
+    axi, lat = np.meshgrid(z, x, indexing='xy')
 
     return axi, lat
 
@@ -63,14 +65,11 @@ def generate_image(image, dz=1, dx=1, dynamic_range=[0, 1],
     :param save_flag: enable to save .png
     :param display_flag: enable to display image
     """
-    import numpy as np
     import matplotlib.pyplot as plt
 
     axi, lat = calc_ticks(image, dz, dx)
 
-    x, z = np.meshgrid(lat, axi, indexing='xy')
-
-    plt.pcolormesh(z, x, image, cmap='gray', vmin=dynamic_range[0],
+    plt.pcolormesh(lat, axi, image, cmap='gray', vmin=dynamic_range[0],
                    vmax=dynamic_range[1])
     plt.axis('image')
     plt.xlabel(x_label)
