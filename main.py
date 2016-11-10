@@ -3,6 +3,8 @@ if __name__ == "__main__":
     from manipulate import reshape_rf
     from envelope_detection import detect
     from output_generation import calc_b_geometry, generate_image
+    from parse_metadata import parse_metadata
+    from read_binary import read_data
 
     # user input parameters <<integrate into argparse>>
     units = 'cm'
@@ -10,8 +12,17 @@ if __name__ == "__main__":
     display = False
     save_path = './outputs/image.png'
     drange = [-50, 0]
+    raw_filename = 'rfdat.bin'
+    info_filname = 'bmode.json'
 
     # load in rf data from binary and scan parameters from JSON
+    meta_data = parse_metadata(info_filename)
+    axial_samples = meta_data['axial_samples'] 
+    num_beams = meta_data['num_beams']
+    c = meta_data['c']
+    fs = meta_data['fs']
+    beam_spacing = meta_data['beam_spacing']
+    rf_vector = read_data(raw_filename)
 
     # reshape the data based on scan geometry
     rf_image = reshape_rf(rf_vector, axial_samples, num_beams)
