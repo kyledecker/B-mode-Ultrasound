@@ -17,13 +17,27 @@ if __name__ == "__main__":
 
     # load in rf data from binary and scan parameters from JSON
     meta_data = parse_metadata(info_filename)
+    """
+    parse metadata from JSON text file in order to attain
+    data acquisition parameters required for reconstruction
+
+    :param json_filename: file name containing metadata
+    :return: dict of fields and their values, fields should include
+     fs, c, axial_samples, num_beams, and beam_spacing
+    """
     axial_samples = meta_data['axial_samples'] 
     num_beams = meta_data['num_beams']
     c = meta_data['c']
     fs = meta_data['fs']
     beam_spacing = meta_data['beam_spacing']
+    
     rf_vector = read_data(raw_filename)
+    """
+    read in raw binary RF data from US acquisition 
 
+    :param data_filename: file name containing raw RF data
+    :return: numpy vector of entire data
+    """
     # reshape the data based on scan geometry
     rf_image = reshape_rf(rf_vector, axial_samples, num_beams)
     """
@@ -48,7 +62,14 @@ if __name__ == "__main__":
     """
 
     # log compress envelope detected image
-    log_image = None
+    log_image = log_compress(img)
+    """
+    Log compression of envelope detected US image 
+
+    :param raw_data: numpy array of envelope detected
+     US data
+    :return: numpy array of log compressed US image
+    """
 
     # save/display final B-mode image
     dz, dx = calc_b_geometry(fs, beam_spacing, c, units)
