@@ -16,7 +16,13 @@ def calc_ticks(image, dz=1, dx=1):
     image = np.array(image)
     xdim, zdim = image.shape
 
-    x = np.array([dx*ii for ii in range(0, xdim)])
+    if xdim % 2:
+        x = np.array([dx*ii
+                      for ii in range(int(-(xdim-1)/2), int((xdim-1)/2+1))])
+    else:
+        x = np.array([dx*(ii+0.5)
+                      for ii in range(int(-xdim/2), int(xdim/2))])
+
     z = np.array([dz*ii for ii in range(0, zdim)])
 
     axi, lat = np.meshgrid(z, x, indexing='xy')
