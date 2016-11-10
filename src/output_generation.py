@@ -42,9 +42,9 @@ def calc_b_geometry(fs, beam_spacing, c=1540., units='cm'):
     """
 
     if units == 'cm':
-        scale = 10.
-    elif units == 'mm':
         scale = 100.
+    elif units == 'mm':
+        scale = 1000.
     elif units == 'm':
         scale = 1.
 
@@ -106,6 +106,7 @@ def generate_image(image, dz=1, dx=1, dynamic_range=[0, 1],
     plt.xlabel(x_label)
     plt.ylabel(z_label)
     plt.colorbar()
+    plt.gca().invert_yaxis()
 
     if save_flag:
         create_dir(filename)
