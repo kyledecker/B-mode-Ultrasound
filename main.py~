@@ -5,7 +5,6 @@ if __name__ == "__main__":
     from output_generation import calc_b_geometry, generate_image
     from parse_metadata import parse_metadata
     from read_binary import read_data
-    from log_compression import log_compress
 
     # user input parameters <<integrate into argparse>>
     units = 'cm'
