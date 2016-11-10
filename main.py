@@ -13,7 +13,7 @@ if __name__ == "__main__":
     # user input parameters <<integrate into argparse>>
     units = 'cm'
     save_png = True
-    display = False
+    display = True
     save_path = './outputs/image.png'
     drange = [-50, 0]
     raw_filename = './bmode_ultrasound/rfdat.bin'
@@ -29,15 +29,15 @@ if __name__ == "__main__":
     :return: dict of fields and their values, fields should include
      fs, c, axial_samples, num_beams, and beam_spacing
     """
-    axial_samples = meta_data['axial_samples'] 
+    axial_samples = meta_data['axial_samples']
     num_beams = meta_data['num_beams']
     c = meta_data['c']
     fs = meta_data['fs']
     beam_spacing = meta_data['beam_spacing']
-    
+
     rf_vector = read_data(raw_filename)
     """
-    read in raw binary RF data from US acquisition 
+    read in raw binary RF data from US acquisition
 
     :param data_filename: file name containing raw RF data
     :return: numpy vector of entire data
@@ -68,7 +68,7 @@ if __name__ == "__main__":
     # log compress envelope detected image
     log_image = log_compress(env_image)
     """
-    Log compression of envelope detected US image 
+    Log compression of envelope detected US image
 
     :param raw_data: numpy array of envelope detected
      US data
