@@ -1,3 +1,6 @@
+import os
+import sys
+sys.path.insert(0, os.path.abspath('./src/'))
 
 if __name__ == "__main__":
     from manipulate import reshape_rf
@@ -13,8 +16,8 @@ if __name__ == "__main__":
     display = False
     save_path = './outputs/image.png'
     drange = [-50, 0]
-    raw_filename = 'rfdat.bin'
-    info_filname = 'bmode.json'
+    raw_filename = './bmode_ultrasound/rfdat.bin'
+    info_filename = './bmode_ultrasound/bmode.json'
 
     # load in rf data from binary and scan parameters from JSON
     meta_data = parse_metadata(info_filename)
@@ -63,7 +66,7 @@ if __name__ == "__main__":
     """
 
     # log compress envelope detected image
-    log_image = log_compress(img)
+    log_image = log_compress(env_image)
     """
     Log compression of envelope detected US image 
 
