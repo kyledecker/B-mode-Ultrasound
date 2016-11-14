@@ -27,7 +27,7 @@ def reshape_rf(rf_vector, axial_samples, num_beams):
         matrix = np.reshape(rf_vector, (num_beams, axial_samples))
         msg = '[reshape_rf] Data reshaping finished (beam x axial sample).'
         print(msg)
-        logging.info(msg)
+        logging.debug(msg)
     except ValueError:
         if rf_vector.size != axial_samples * num_beams:
             msg = '[reshape_rf] mismatch in vector length and image ' \

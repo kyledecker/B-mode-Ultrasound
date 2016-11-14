@@ -21,6 +21,6 @@ def detect(data, axis=-1):
 
     msg = '[detect] Envelope detection finished.'
     print(msg)
-    logging.info(msg)
+    logging.debug(msg)
 
     return env_data

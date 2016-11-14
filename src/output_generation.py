@@ -31,6 +31,10 @@ def calc_ticks(image, dz=1, dx=1):
     # generate mesh using calculated axial and lateral axes
     axi, lat = np.meshgrid(z, x, indexing='xy')
 
+    msg = '[calc_ticks] Image mesh generated.'
+    print(msg)
+    logging.debug(msg)
+
     return axi, lat
 
 
@@ -127,6 +131,11 @@ def generate_image(image, dz=1, dx=1, dynamic_range=[0, 1],
 
     plt.pcolormesh(lat, axi, image, cmap='gray', vmin=dynamic_range[0],
                    vmax=dynamic_range[1])
+
+    msg = '[generate_image] Generating pcolormesh...'
+    print(msg)
+    logging.debug(msg)
+
     plt.axis('image')
     plt.xlabel(x_label)
     plt.ylabel(z_label)

@@ -1,5 +1,6 @@
 import os
 import sys
+import logging
 sys.path.insert(0, os.path.abspath('./src/'))
 
 if __name__ == "__main__":
@@ -18,6 +19,25 @@ if __name__ == "__main__":
     drange = [-50, 0]
     raw_filename = './bmode_ultrasound/rfdat.bin'
     info_filename = './bmode_ultrasound/bmode.json'
+    log_level = 'debug'
+
+    logging.basicConfig(filename="log.txt", level=log_level,
+                        format='%(asctime)s - %(levelname)s: %(message)s',
+                        datefmt='%m/%d/%Y %I:%M:%S %p')
+
+    logging.debug('Running B-mode image generation and display.')
+
+    msg = 'Binary file: ' + raw_filename
+    print(msg)
+    logging.info(msg)
+
+    msg = 'JSON meta data file: ' + info_filename
+    print(msg)
+    logging.info(msg)
+
+    msg = 'Output file path: ' + save_path
+    print(msg)
+    logging.info(msg)
 
     # load in rf data from binary and scan parameters from JSON
     meta_data = parse_metadata(info_filename)
