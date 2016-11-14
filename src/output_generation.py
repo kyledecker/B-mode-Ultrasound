@@ -17,7 +17,7 @@ def calc_ticks(image, dz=1, dx=1):
     image = np.array(image)
     xdim, zdim = image.shape
 
-    # list lateral axis ticks
+    # calculate lateral axis with origin (0,0) in the center
     if xdim % 2:
         x = np.array([dx*ii
                       for ii in range(int(-(xdim-1)/2), int((xdim-1)/2+1))])
@@ -25,9 +25,10 @@ def calc_ticks(image, dz=1, dx=1):
         x = np.array([dx*(ii+0.5)
                       for ii in range(int(-xdim/2), int(xdim/2))])
 
-    # list axial axis ticks
+    # calculate axial axis
     z = np.array([dz*ii for ii in range(0, zdim)])
 
+    # generate mesh using calculated axial and lateral axes
     axi, lat = np.meshgrid(z, x, indexing='xy')
 
     return axi, lat
