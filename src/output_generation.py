@@ -1,4 +1,5 @@
 import sys
+import logging
 
 
 def calc_ticks(image, dz=1, dx=1):
@@ -16,6 +17,7 @@ def calc_ticks(image, dz=1, dx=1):
     image = np.array(image)
     xdim, zdim = image.shape
 
+    # calculate lateral axis with origin (0,0) in the center
     if xdim % 2:
         x = np.array([dx*ii
                       for ii in range(int(-(xdim-1)/2), int((xdim-1)/2+1))])
@@ -23,8 +25,10 @@ def calc_ticks(image, dz=1, dx=1):
         x = np.array([dx*(ii+0.5)
                       for ii in range(int(-xdim/2), int(xdim/2))])
 
+    # calculate axial axis
     z = np.array([dz*ii for ii in range(0, zdim)])
 
+    # generate mesh using calculated axial and lateral axes
     axi, lat = np.meshgrid(z, x, indexing='xy')
 
     return axi, lat
@@ -47,6 +51,12 @@ def calc_b_geometry(fs, beam_spacing, c=1540., units='cm'):
         scale = 1000.
     elif units == 'm':
         scale = 1.
+    else:
+        msg = '[calc_b_geometry] Invalid unit type specified. Exiting ' \
+              'script...'
+        logging.error(msg)
+        print(msg)
+        sys.exit()
 
     c = float(c)
     beam_spacing = float(beam_spacing)
@@ -54,6 +64,8 @@ def calc_b_geometry(fs, beam_spacing, c=1540., units='cm'):
 
     dz = scale*c*1/fs/2
     dx = scale*beam_spacing
+    logging.info('Axial tick size: ' + str(dz) + ' ' + units)
+    logging.info('Lateral tick size: ' + str(dx) + ' ' + units)
 
     return dz, dx
 
@@ -70,9 +82,10 @@ def create_dir(filepath):
         try:
             os.makedirs(out_dir)
         except:
-            msg = '[create_dir] failed to create ' + out_dir + \
+            msg = '[create_dir] Failed to create ' + out_dir + \
                   '. Exiting script...'
             print(msg)
+            logging.error(msg)
             sys.exit()
 
 
@@ -95,10 +108,22 @@ def generate_image(image, dz=1, dx=1, dynamic_range=[0, 1],
     if not display_flag:
         import matplotlib
         matplotlib.use('Agg')
+        msg = '[generate_image] Using Agg matplotlib backend.'
+        print(msg)
+        logging.warning(msg)
 
     import matplotlib.pyplot as plt
 
     axi, lat = calc_ticks(image, dz, dx)
+
+    if dynamic_range[0] > dynamic_range[1]:
+        tmp = dynamic_range
+        dynamic_range[0] = tmp[1]
+        dynamic_range[1] = tmp[0]
+        msg = '[generate_image] Dynamic range bounds out of order. ' \
+              'Reversing bounds for display...'
+        print(msg)
+        logging.warning(msg)
 
     plt.pcolormesh(lat, axi, image, cmap='gray', vmin=dynamic_range[0],
                    vmax=dynamic_range[1])
@@ -111,6 +136,16 @@ def generate_image(image, dz=1, dx=1, dynamic_range=[0, 1],
     if save_flag:
         create_dir(filename)
         plt.savefig(filename)
+        msg = '[generate_image] PNG file saved to ' + filename
+        logging.info(msg)
+        print(msg)
 
     if display_flag:
-        plt.show()
+        try:
+            plt.show()
+        except:
+            msg = '[generate_image] matplotlib backend failed to display ' \
+                  'image. Exiting script...'
+            logging.error(msg)
+            print(msg)
+            sys.exit()

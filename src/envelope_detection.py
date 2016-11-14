@@ -1,4 +1,5 @@
 import sys
+import logging
 
 
 def detect(data, axis=-1):
@@ -10,7 +11,6 @@ def detect(data, axis=-1):
     :param axis: dimension along which detection is performed, default: -1
     :return: env_data (np.array)
     """
-
     from scipy.signal import hilbert
     import numpy as np
 
@@ -18,5 +18,9 @@ def detect(data, axis=-1):
 
     analytic_data = hilbert(data, N=None, axis=axis)
     env_data = np.absolute(analytic_data)
+
+    msg = '[detect] Envelope detection finished.'
+    print(msg)
+    logging.info(msg)
 
     return env_data
