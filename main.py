@@ -10,21 +10,22 @@ if __name__ == "__main__":
     from parse_metadata import parse_metadata
     from read_binary import read_data
     from log_compression import log_compress
+    from parse_cli import parse_cli
 
-    # user input parameters <<integrate into argparse>>
+    # gather argparse inputs
+    args = parse_cli()
     units = 'cm'
-    save_png = True
-    display = True
-    save_path = './outputs/image.png'
+    save_png = args.s
+    display = args.d
+    #save_path = './outputs/image.png'
+    save_path = args.out
     drange = [-50, 0]
-    raw_filename = './bmode_ultrasound/rfdat.bin'
-    info_filename = './bmode_ultrasound/bmode.json'
-    log_level = 'debug'
+    #raw_filename = './bmode_ultrasound/rfdat.bin'
+    #info_filename = './bmode_ultrasound/bmode.json'
+    raw_filename = args.f
+    info_filename = args.m
+    log_level = args.l
     
-    levels = {'debug': logging.DEBUG, 'info': logging.INFO,
-              'error': logging.ERROR}
-    log_level = levels[log_level]
-
     logging.basicConfig(filename="log.txt", level=log_level,
                         format='%(asctime)s - %(levelname)s: %(message)s',
                         datefmt='%m/%d/%Y %I:%M:%S %p')
