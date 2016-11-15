@@ -1,6 +1,6 @@
 def log_compress(env_image):
     """
-    Log compression of envelope detected US image
+    Log compression of envelope detected US image 
 
     :param raw_data: numpy array of envelope detected
      US data
