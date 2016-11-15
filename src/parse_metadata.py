@@ -24,5 +24,4 @@ def parse_metadata(json_filename):
     print(msg)
     logging.debug(msg)
 
-
     return metadata

@@ -6,7 +6,7 @@ def parse_cli():
     """
     import argparse as ap
 
-    par = ap.ArgumentParser(description="Ultrasound Image Formation From Raw RF Data",
+    par = ap.ArgumentParser(description="US Image Formation From Raw RF Data",
                             formatter_class=ap.ArgumentDefaultsHelpFormatter)
 
     par.add_argument("--f",

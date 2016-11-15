@@ -12,7 +12,7 @@ def log_compress(env_image):
 
     img_type = type(env_image).__module__
     if (img_type != np.__name__):
-        msg = '[env_image] input is not numpy array. Exiting script...' 
+        msg = '[env_image] input is not numpy array. Exiting script...'
         print(msg)
         logging.error(msg)
         sys.exit()
