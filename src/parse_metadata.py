@@ -8,8 +8,15 @@ def parse_metadata(json_filename):
      fs, c, axial_samples, num_beams, and beam_spacing
     """
     import json
+    import logging
 
-    with open(json_filename) as f:
-        metadata = json.load(f)
+    try:
+        with open(json_filename) as f:
+            metadata = json.load(f)
+    except FileNotFoundError:
+        msg = ('%s is not a valid input file for data', json_filename)
+        print(msg)
+        logging.error(msg)
+        sys.exit()
 
     return metadata
