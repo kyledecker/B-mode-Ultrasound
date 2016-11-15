@@ -20,6 +20,10 @@ if __name__ == "__main__":
     raw_filename = './bmode_ultrasound/rfdat.bin'
     info_filename = './bmode_ultrasound/bmode.json'
     log_level = 'debug'
+    
+    levels = {'debug': logging.DEBUG, 'info': logging.INFO,
+              'error': logging.ERROR}
+    log_level = levels[log_level]
 
     logging.basicConfig(filename="log.txt", level=log_level,
                         format='%(asctime)s - %(levelname)s: %(message)s',
