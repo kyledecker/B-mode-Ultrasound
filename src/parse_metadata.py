@@ -9,6 +9,7 @@ def parse_metadata(json_filename):
     """
     import json
     import logging
+    import sys
 
     try:
         with open(json_filename) as f:
@@ -18,5 +19,10 @@ def parse_metadata(json_filename):
         print(msg)
         logging.error(msg)
         sys.exit()
+
+    msg = 'finished parsing metadata from JSON file'
+    print(msg)
+    logging.debug(msg)
+
 
     return metadata

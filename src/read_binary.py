@@ -7,6 +7,7 @@ def read_data(data_filename):
     """
     import numpy as np
     import logging
+    import sys
 
     try:
         with open(data_filename) as f:
@@ -18,5 +19,9 @@ def read_data(data_filename):
         sys.exit()
 
     raw_data = np.float32(raw_data)
+
+    msg = 'finished reading in raw data and converting to numpy array'
+    print(msg)
+    logging.debug(msg)
 
     return raw_data
