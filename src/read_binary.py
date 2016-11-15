@@ -6,9 +6,16 @@ def read_data(data_filename):
     :return: numpy vector of entire data
     """
     import numpy as np
+    import logging
 
-    with open(data_filename) as f:
-        raw_data = np.fromfile(f, dtype='int16')
+    try:
+        with open(data_filename) as f:
+            raw_data = np.fromfile(f, dtype='int16')
+    except FileNotFoundError:
+        msg = ('%s is not a valid input file for data', data_filename)
+        print(msg)
+        logging.error(msg)
+        sys.exit()
 
     raw_data = np.float32(raw_data)
 
