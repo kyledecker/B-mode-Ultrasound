@@ -22,13 +22,13 @@ def parse_cli():
     par.add_argument("--display",
                      dest="d",
                      help="Display Generated Image",
-                     type=boolean,
+                     type=bool,
                      default=False)
 
     par.add_argument("--save",
                      dest="s",
                      help="Save Output Image",
-                     type=boolean,
+                     type=bool,
                      default=True)
 
     par.add_argument("--out",

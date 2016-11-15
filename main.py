@@ -23,7 +23,7 @@ if __name__ == "__main__":
     #raw_filename = './bmode_ultrasound/rfdat.bin'
     #info_filename = './bmode_ultrasound/bmode.json'
     raw_filename = args.f
-    info_filname = args.m
+    info_filename = args.m
     log_level = args.l
     
     logging.basicConfig(filename="log.txt", level=log_level,
