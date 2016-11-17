@@ -6,3 +6,4 @@
 *.png
 *~
 log.txt
+_build/
