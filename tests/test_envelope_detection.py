@@ -2,6 +2,7 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('./src/'))
 
+
 def test_detect():
     import numpy as np
     from envelope_detection import detect
@@ -35,6 +36,3 @@ def test_detect():
 
     assert np.allclose(env_mat_row, env_signal, rtol=1e-05, atol=1e-08,
                        equal_nan=True)
-
-
-

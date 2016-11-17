@@ -2,6 +2,7 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('./src/'))
 
+
 def test_reshape_rf():
     import numpy as np
     from manipulate import reshape_rf

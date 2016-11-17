@@ -12,12 +12,12 @@ def parse_cli():
     par.add_argument("--f",
                      dest="f",
                      help="RF Binary Data File Name",
-                     default='rfdat.bin')
+                     default='./bmode_ultrasound/rfdat.bin')
 
     par.add_argument("--m",
                      dest="m",
                      help="JSON Metadata File Name",
-                     default='bmode.json')
+                     default='./bmode_ultrasound/bmode.json')
 
     par.add_argument("--display",
                      dest="d",
@@ -34,7 +34,18 @@ def parse_cli():
     par.add_argument("--out",
                      dest="out",
                      help="Output Filename for Generated Image",
-                     default="bmode.png")
+                     default="./outputs/bmode.png")
+
+    par.add_argument("--dr",
+                     dest="dr",
+                     help="Lower Bound of Dynamic range",
+                     type=float,
+                     default=-50.)
+
+    par.add_argument("--u",
+                     dest="u",
+                     help="Units for display ('mm', 'cm', 'm')",
+                     default='cm')
 
     par.add_argument("--log",
                      dest="l",
@@ -53,4 +64,4 @@ def parse_cli():
 
     args = par.parse_args()
 
-    return(args)
+    return args
