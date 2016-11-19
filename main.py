@@ -22,6 +22,7 @@ if __name__ == "__main__":
     log_level = args.l
     units = args.u
     drange = [args.dr, 0]
+    hist_eq = args.heq
 
     # configure logging
     logging.basicConfig(filename="log.txt", level=log_level,
@@ -67,5 +68,6 @@ if __name__ == "__main__":
     dz, dx = calc_b_geometry(fs, beam_spacing, c, units)
 
     generate_image(log_image, dz=dz, dx=dx, dynamic_range=drange,
-                   z_label=units, x_label=units, filename=save_path,
-                   save_flag=save_png, display_flag=display)
+                   hist_eq=hist_eq, z_label=units, x_label=units,
+                   filename=save_path, save_flag=save_png,
+                   display_flag=display)
