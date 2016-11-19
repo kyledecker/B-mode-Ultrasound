@@ -13,14 +13,17 @@ def read_data(data_filename):
         with open(data_filename) as f:
             raw_data = np.fromfile(f, dtype='int16')
     except FileNotFoundError:
-        msg = ('%s is not a valid input file for data', data_filename)
+        msg = ('[read_data] %s is not a valid input file for data. Exiting '
+               'script...',
+               data_filename)
         print(msg)
         logging.error(msg)
         sys.exit()
 
     raw_data = np.float32(raw_data)
 
-    msg = 'finished reading in raw data and converting to numpy array'
+    msg = '[read_data] Finished reading in raw data and converting to numpy ' \
+          'array.'
     print(msg)
     logging.debug(msg)
 

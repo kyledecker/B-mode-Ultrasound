@@ -12,7 +12,7 @@ def log_compress(env_image):
 
     img_type = type(env_image).__module__
     if (img_type != np.__name__):
-        msg = '[env_image] input is not numpy array. Exiting script...'
+        msg = '[log_compress] input is not numpy array. Exiting script...'
         print(msg)
         logging.error(msg)
         sys.exit()
@@ -20,7 +20,7 @@ def log_compress(env_image):
     scaled_image = env_image/env_image.max()
     log_image = 20*np.log10(scaled_image)
 
-    msg = 'Log compression finished.'
+    msg = '[log_compress] Log compression finished.'
     print(msg)
     logging.debug(msg)
 

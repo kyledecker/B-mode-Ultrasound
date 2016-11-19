@@ -54,7 +54,7 @@ def parse_cli():
                      type=bool,
                      default=False)
 
-    par.add_argument("--u",
+    par.add_argument("--units",
                      dest="u",
                      help="Units for display ('mm', 'cm', 'm')",
                      default='cm')
