@@ -21,13 +21,13 @@ def parse_cli():
 
     par.add_argument("--display",
                      dest="d",
-                     help="Display Generated Image",
+                     help="Display Generated Image <True/False>",
                      type=bool,
                      default=False)
 
     par.add_argument("--save",
                      dest="s",
-                     help="Save Output Image",
+                     help="Save Output Image <True/False>",
                      type=bool,
                      default=True)
 
@@ -44,24 +44,25 @@ def parse_cli():
 
     par.add_argument("--heq",
                      dest="heq",
-                     help="Enable Adaptive Histogram Equalization",
+                     help="Enable Adaptive Histogram Equalization "
+                          "<True/False>",
                      type=bool,
                      default=False)
 
     par.add_argument("--post",
                      dest="post",
-                     help="Apply Image Post Processing",
+                     help="Apply Image Post Processing <True/False>",
                      type=bool,
                      default=False)
 
     par.add_argument("--units",
                      dest="u",
-                     help="Units for display ('mm', 'cm', 'm')",
+                     help="Units for display <mm, cm, m>",
                      default='cm')
 
     par.add_argument("--log",
                      dest="l",
-                     help="Logging Level",
+                     help="Logging Level <DEBUG, INFO, WARNING, ERROR>",
                      default='DEBUG')
 
     par.add_argument("--shoutout",
