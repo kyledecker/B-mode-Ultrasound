@@ -48,6 +48,12 @@ def parse_cli():
                      type=bool,
                      default=False)
 
+    par.add_argument("--post",
+                     dest="post",
+                     help="Apply Image Post Processing",
+                     type=bool,
+                     default=False)
+
     par.add_argument("--u",
                      dest="u",
                      help="Units for display ('mm', 'cm', 'm')",
