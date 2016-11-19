@@ -94,8 +94,9 @@ def create_dir(filepath):
 
 
 def generate_image(image, dz=1, dx=1, dynamic_range=[0, 1], hist_eq=False,
-                   z_label='z', x_label='x', filename='./image.png',
-                   save_flag=True, display_flag=False):
+                   post_proc=False, z_label='z', x_label='x',
+                   filename='./bmode.png', save_flag=True,
+                   display_flag=False):
     """
     display/save output image with user-specified dynamic range
 
@@ -119,6 +120,7 @@ def generate_image(image, dz=1, dx=1, dynamic_range=[0, 1], hist_eq=False,
 
     import matplotlib.pyplot as plt
     import numpy as np
+    uint16_scale = 65535
 
     axi, lat = calc_ticks(image, dz, dx)
 
@@ -131,11 +133,18 @@ def generate_image(image, dz=1, dx=1, dynamic_range=[0, 1], hist_eq=False,
         print(msg)
         logging.warning(msg)
 
+    if post_proc:
+        from skimage import filters
+        msg = '[generate_image] Performing image post-processing...'
+        logging.debug(msg)
+        print(msg)
+        raw = image
+        image = filters.gaussian(raw, sigma=0.75)
+
     image = np.clip(image, dynamic_range[0], dynamic_range[1])
 
     if hist_eq:
         from skimage import exposure
-        uint16_scale = 65535
 
         msg = '[generate_image] Performing histogram equalization...'
         logging.debug(msg)
@@ -155,7 +164,6 @@ def generate_image(image, dz=1, dx=1, dynamic_range=[0, 1], hist_eq=False,
     plt.axis('image')
     plt.xlabel(x_label)
     plt.ylabel(z_label)
-    plt.colorbar()
     plt.gca().invert_yaxis()
 
     if save_flag:
