@@ -105,6 +105,7 @@ def generate_image(image, dz=1, dx=1, dynamic_range=[0, 1], hist_eq=False,
     :param dx: lateral sampling interval
     :param dynamic_range: displayed dynamic range
     :param hist_eq: enable to perform histogram equalization
+    :param post_proc: apply image post-processing
     :param z_label: label for z (axial) axis
     :param x_label: label for x (lateral) axis
     :param filename: file path and name of saved .png
