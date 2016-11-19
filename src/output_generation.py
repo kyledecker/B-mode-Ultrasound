@@ -93,7 +93,7 @@ def create_dir(filepath):
             sys.exit()
 
 
-def generate_image(image, dz=1, dx=1, dynamic_range=[0, 1],
+def generate_image(image, dz=1, dx=1, dynamic_range=[0, 1], hist_eq=False,
                    z_label='z', x_label='x', filename='./image.png',
                    save_flag=True, display_flag=False):
     """
@@ -103,6 +103,7 @@ def generate_image(image, dz=1, dx=1, dynamic_range=[0, 1],
     :param dz: axial sampling interval
     :param dx: lateral sampling interval
     :param dynamic_range: displayed dynamic range
+    :param hist_eq: enable to perform histogram equalization
     :param z_label: label for z (axial) axis
     :param x_label: label for x (lateral) axis
     :param filename: file path and name of saved .png
@@ -117,6 +118,7 @@ def generate_image(image, dz=1, dx=1, dynamic_range=[0, 1],
         logging.warning(msg)
 
     import matplotlib.pyplot as plt
+    import numpy as np
 
     axi, lat = calc_ticks(image, dz, dx)
 
@@ -129,8 +131,22 @@ def generate_image(image, dz=1, dx=1, dynamic_range=[0, 1],
         print(msg)
         logging.warning(msg)
 
-    plt.pcolormesh(lat, axi, image, cmap='gray', vmin=dynamic_range[0],
-                   vmax=dynamic_range[1])
+    image = np.clip(image, dynamic_range[0], dynamic_range[1])
+
+    if hist_eq:
+        from skimage import exposure
+        uint16_scale = 65535
+
+        msg = '[generate_image] Performing histogram equalization...'
+        logging.debug(msg)
+        print(msg)
+        image += np.abs(dynamic_range[0])
+        image /= np.abs(dynamic_range[0])
+        image *= uint16_scale
+        image = exposure.equalize_adapthist(image.astype('uint16'),
+                                            clip_limit=0.005)
+
+    plt.pcolormesh(lat, axi, image, cmap='gray')
 
     msg = '[generate_image] Generating pcolormesh...'
     print(msg)
@@ -151,6 +167,10 @@ def generate_image(image, dz=1, dx=1, dynamic_range=[0, 1],
 
     if display_flag:
         try:
+            msg = '[generate_image] Displaying image in matplotlib figure...'
+            print(msg)
+            logging.debug(msg)
+
             plt.show()
         except:
             msg = '[generate_image] matplotlib backend failed to display ' \

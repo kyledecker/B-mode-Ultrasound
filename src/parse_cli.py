@@ -42,6 +42,12 @@ def parse_cli():
                      type=float,
                      default=-50.)
 
+    par.add_argument("--heq",
+                     dest="heq",
+                     help="Enable Adaptive Histogram Equalization",
+                     type=bool,
+                     default=False)
+
     par.add_argument("--u",
                      dest="u",
                      help="Units for display ('mm', 'cm', 'm')",
