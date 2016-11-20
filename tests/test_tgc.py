@@ -23,4 +23,3 @@ def test_apply_tgc():
     i = 9
     j = 3
     assert mat_tgc[j][i] == np.exp(a * i)
-
