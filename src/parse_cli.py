@@ -80,7 +80,7 @@ def parse_cli():
     args.d = parse_bool(args.d)
     args.s = parse_bool(args.s)
     args.post = parse_bool(args.post)
-    
+
     return args
 
 
@@ -92,7 +92,8 @@ def parse_bool(inpar):
     :return: outpar (bool)
     """
     import sys
-    msg = '[parse_cli] CLI must be either True/False. Exiting script...'
+    msg = 'ERROR [parse_cli] CLI must be either True/False. ' \
+          'Exiting script...'
 
     try:
         if inpar.lower() == 'true' or inpar.lower() == 't':

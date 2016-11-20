@@ -15,9 +15,8 @@ def parse_metadata(json_filename):
         with open(json_filename) as f:
             metadata = json.load(f)
     except FileNotFoundError:
-        msg = ('[parse_metadata] %s is not a valid input file for data. '
-               'Exiting script...',
-               json_filename)
+        msg = 'ERROR [parse_metadata] %s is not a valid input file for ' \
+              'data. Exiting script...' % json_filename
         print(msg)
         logging.error(msg)
         sys.exit()

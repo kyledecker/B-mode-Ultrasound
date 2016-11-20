@@ -18,7 +18,7 @@ def reshape_rf(rf_vector, axial_samples, num_beams):
     rf_vector = rf_vector.squeeze()
 
     if rf_vector.ndim > 1:
-        msg = '[reshape_rf] vector input is not 1-d. Exiting script...'
+        msg = 'ERROR [reshape_rf] Vector input is not 1-d. Exiting script...'
         print(msg)
         logging.error(msg)
         sys.exit()
@@ -28,10 +28,10 @@ def reshape_rf(rf_vector, axial_samples, num_beams):
         msg = '[reshape_rf] Data reshaping finished (beam x axial sample).'
         print(msg)
         logging.debug(msg)
-    except ValueError:
+    except ValueError as err:
         if rf_vector.size != axial_samples * num_beams:
-            msg = '[reshape_rf] mismatch in vector length and image ' \
-                  'dimensions. Exiting script...'
+            msg = 'ERROR [reshape_rf] Mismatch in vector length and image ' \
+                  'dimensions: {0}. Exiting script...'.format(err)
             print(msg)
             logging.error(msg)
             sys.exit()

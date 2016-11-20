@@ -21,6 +21,12 @@ if __name__ == "__main__":
     info_filename = args.m
     log_level = args.l
     units = args.u
+
+    if args.dr > 0:
+        msg = 'WARNING [main] Assuming negative dynamic range lower bound.'
+        print(msg)
+        logging.warning(msg)
+
     drange = [args.dr, 0]
     hist_eq = args.heq
     post = args.post
@@ -68,7 +74,9 @@ if __name__ == "__main__":
     # save/display final B-mode image with correct geometry
     dz, dx = calc_b_geometry(fs, beam_spacing, c, units)
 
+    x_label = 'Lateral [%s]' % units
+    z_label = 'Axial [%s]' % units
     generate_image(log_image, dz=dz, dx=dx, dynamic_range=drange,
                    hist_eq=hist_eq, post_proc=post,
-                   z_label=units, x_label=units, filename=save_path,
+                   z_label=z_label, x_label=x_label, filename=save_path,
                    save_flag=save_png, display_flag=display)

@@ -13,9 +13,8 @@ def read_data(data_filename):
         with open(data_filename) as f:
             raw_data = np.fromfile(f, dtype='int16')
     except FileNotFoundError:
-        msg = ('[read_data] %s is not a valid input file for data. Exiting '
-               'script...',
-               data_filename)
+        msg = 'ERROR [read_data] %s is not a valid input file for data. ' \
+              'Exiting script...' % data_filename
         print(msg)
         logging.error(msg)
         sys.exit()

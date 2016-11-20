@@ -56,7 +56,7 @@ def calc_b_geometry(fs, beam_spacing, c=1540., units='cm'):
     elif units == 'm':
         scale = 1.
     else:
-        msg = '[calc_b_geometry] Invalid unit type specified. Exiting ' \
+        msg = 'ERROR [calc_b_geometry] Invalid unit type specified. Exiting ' \
               'script...'
         logging.error(msg)
         print(msg)
@@ -66,6 +66,7 @@ def calc_b_geometry(fs, beam_spacing, c=1540., units='cm'):
     beam_spacing = float(beam_spacing)
     fs = float(fs)
 
+    # calculate axial and lateral pixel spacings
     dz = scale*c*1/fs/2
     dx = scale*beam_spacing
     logging.info('Axial tick size: ' + str(dz) + ' ' + units)
@@ -86,7 +87,7 @@ def create_dir(filepath):
         try:
             os.makedirs(out_dir)
         except:
-            msg = '[create_dir] Failed to create ' + out_dir + \
+            msg = 'ERROR [create_dir] Invalid output path ' + out_dir + \
                   '. Exiting script...'
             print(msg)
             logging.error(msg)
@@ -115,7 +116,7 @@ def generate_image(image, dz=1, dx=1, dynamic_range=[0, 1], hist_eq=False,
     if not display_flag:
         import matplotlib
         matplotlib.use('Agg')
-        msg = '[generate_image] Using Agg matplotlib backend.'
+        msg = 'WARNING [generate_image] Using Agg matplotlib backend.'
         print(msg)
         logging.warning(msg)
 
@@ -123,6 +124,7 @@ def generate_image(image, dz=1, dx=1, dynamic_range=[0, 1], hist_eq=False,
     import numpy as np
     uint16_scale = 65535
 
+    # generate lat and axi meshes based on pixel spacing (dz and dx)
     axi, lat = calc_ticks(image, dz, dx)
 
     if dynamic_range[0] > dynamic_range[1]:
@@ -134,6 +136,7 @@ def generate_image(image, dz=1, dx=1, dynamic_range=[0, 1], hist_eq=False,
         print(msg)
         logging.warning(msg)
 
+    # perform post-processing on full image
     if post_proc:
         from skimage import filters
         msg = '[generate_image] Performing image post-processing...'
@@ -142,25 +145,24 @@ def generate_image(image, dz=1, dx=1, dynamic_range=[0, 1], hist_eq=False,
         raw = image
         image = filters.gaussian(raw, sigma=0.75)
 
+    # clip image bounds based on specified dynamic range
     image = np.clip(image, dynamic_range[0], dynamic_range[1])
 
+    # perform histogram equalization on clipped and normalized image
     if hist_eq:
         from skimage import exposure
-
         msg = '[generate_image] Performing histogram equalization...'
         logging.debug(msg)
         print(msg)
+
         image += np.abs(dynamic_range[0])
         image /= np.abs(dynamic_range[0])
         image *= uint16_scale
         image = exposure.equalize_adapthist(image.astype('uint16'),
                                             clip_limit=0.005)
 
+    # display image with geometry specified by lat and axi meshes
     plt.pcolormesh(lat, axi, image, cmap='gray')
-
-    msg = '[generate_image] Generating pcolormesh...'
-    print(msg)
-    logging.debug(msg)
 
     plt.axis('image')
     plt.xlabel(x_label)
@@ -169,10 +171,16 @@ def generate_image(image, dz=1, dx=1, dynamic_range=[0, 1], hist_eq=False,
 
     if save_flag:
         create_dir(filename)
-        plt.savefig(filename)
-        msg = '[generate_image] PNG file saved to ' + filename
-        logging.info(msg)
-        print(msg)
+        try:
+            plt.savefig(filename)
+            msg = '[generate_image] Image saved to ' + filename
+            logging.info(msg)
+            print(msg)
+        except OSError as err:
+            msg = 'ERROR [generate_image] Failed to save PNG : {0}'.format(err)
+            logging.error(msg)
+            print(msg)
+            sys.exit()
 
     if display_flag:
         try:
@@ -182,8 +190,8 @@ def generate_image(image, dz=1, dx=1, dynamic_range=[0, 1], hist_eq=False,
 
             plt.show()
         except:
-            msg = '[generate_image] matplotlib backend failed to display ' \
-                  'image. Exiting script...'
+            msg = 'ERROR [generate_image] matplotlib backend failed to ' \
+                  'display image. Exiting script...'
             logging.error(msg)
             print(msg)
             sys.exit()
