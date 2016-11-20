@@ -23,6 +23,7 @@ if __name__ == "__main__":
     units = args.u
 
     if args.dr > 0:
+        args.dr = -args.dr
         msg = 'WARNING [main] Assuming negative dynamic range lower bound.'
         print(msg)
         logging.warning(msg)

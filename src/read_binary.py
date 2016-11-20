@@ -1,8 +1,9 @@
-def read_data(data_filename):
+def read_data(data_filename, plot_flag=False):
     """
     read in raw binary RF data from US acquisition
 
     :param data_filename: file name containing raw RF data
+    :param plot_flag: enable display of raw data plot for debugging
     :return: numpy vector of entire data
     """
     import numpy as np
@@ -25,5 +26,10 @@ def read_data(data_filename):
           'array.'
     print(msg)
     logging.debug(msg)
+
+    if plot_flag:
+        import matplotlib.pyplot as plt
+        plt.plot(raw_data)
+        plt.show()
 
     return raw_data

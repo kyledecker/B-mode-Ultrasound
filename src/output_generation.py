@@ -131,7 +131,7 @@ def generate_image(image, dz=1, dx=1, dynamic_range=[0, 1], hist_eq=False,
         tmp = dynamic_range
         dynamic_range[0] = tmp[1]
         dynamic_range[1] = tmp[0]
-        msg = '[generate_image] Dynamic range bounds out of order. ' \
+        msg = 'WARNING [generate_image] Dynamic range bounds out of order. ' \
               'Reversing bounds for display...'
         print(msg)
         logging.warning(msg)
@@ -146,6 +146,8 @@ def generate_image(image, dz=1, dx=1, dynamic_range=[0, 1], hist_eq=False,
         image = filters.gaussian(raw, sigma=0.75)
 
     # clip image bounds based on specified dynamic range
+    if dynamic_range[0] < np.min(image):
+        dynamic_range[0] = np.min(image)
     image = np.clip(image, dynamic_range[0], dynamic_range[1])
 
     # perform histogram equalization on clipped and normalized image
