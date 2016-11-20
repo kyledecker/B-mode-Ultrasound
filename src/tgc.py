@@ -9,7 +9,7 @@ def apply_tgc(data, dz, adb=0.5):
 
     :param data: input matrix
     :param dz: axial sample increment
-    :param adb: attenuation coefficient db/cm, default: 0.5
+    :param adb: attenuation coefficient db, default: 0.5
     :return: data_tgc (np.array)
     """
     import numpy as np
@@ -21,7 +21,8 @@ def apply_tgc(data, dz, adb=0.5):
     for beam in range(0, data.shape[0]):
         data_tgc[beam] = np.multiply(data[beam], np.exp(np_per_db*adb*z_array))
 
-    msg = '[apply_tgc] Basic exponential TGC applied.'
+    msg = '[apply_tgc] Exponential TGC applied with a=%.2f db.' %\
+          adb
     logging.info(msg)
     print(msg)
 

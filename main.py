@@ -22,6 +22,7 @@ if __name__ == "__main__":
     info_filename = args.m
     log_level = args.l
     units = args.u
+    alpha_db = args.adb
 
     if args.dr > 0:
         args.dr = -args.dr
@@ -69,6 +70,9 @@ if __name__ == "__main__":
 
     # calculate geometry of b-mode based on meta data
     dz, dx = calc_b_geometry(fs, beam_spacing, c, units)
+
+    # apply TGC
+    rf_image = apply_tgc(rf_image, dz, alpha_db)
 
     # perform envelope detection on rf image
     env_image = detect(rf_image)
