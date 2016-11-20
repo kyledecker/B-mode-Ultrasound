@@ -41,6 +41,12 @@ def parse_cli():
                      type=float,
                      default=-50.)
 
+    par.add_argument("--alpha",
+                     dest="adb",
+                     help="Attenuation Coefficient for TGC in dB",
+                     type=float,
+                     default=0.0)
+
     par.add_argument("--heq",
                      dest="heq",
                      help="Enable Adaptive Histogram Equalization "

@@ -11,6 +11,7 @@ if __name__ == "__main__":
     from read_binary import read_data
     from log_compression import log_compress
     from parse_cli import parse_cli
+    from tgc import apply_tgc
 
     # gather argparse inputs
     args = parse_cli()
@@ -21,6 +22,7 @@ if __name__ == "__main__":
     info_filename = args.m
     log_level = args.l
     units = args.u
+    alpha_db = args.adb
 
     if args.dr > 0:
         args.dr = -args.dr
@@ -66,6 +68,12 @@ if __name__ == "__main__":
     # reshape the data based on meta data
     rf_image = reshape_rf(rf_vector, axial_samples, num_beams)
 
+    # calculate geometry of b-mode based on meta data
+    dz, dx = calc_b_geometry(fs, beam_spacing, c, units)
+
+    # apply TGC
+    rf_image = apply_tgc(rf_image, dz, alpha_db)
+
     # perform envelope detection on rf image
     env_image = detect(rf_image)
 
@@ -73,8 +81,6 @@ if __name__ == "__main__":
     log_image = log_compress(env_image)
 
     # save/display final B-mode image with correct geometry
-    dz, dx = calc_b_geometry(fs, beam_spacing, c, units)
-
     x_label = 'Lateral [%s]' % units
     z_label = 'Axial [%s]' % units
     generate_image(log_image, dz=dz, dx=dx, dynamic_range=drange,
