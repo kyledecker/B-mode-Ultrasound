@@ -1,5 +1,4 @@
 def parse_cli():
-
     """parse CLI
 
     :returns: args
@@ -22,14 +21,14 @@ def parse_cli():
     par.add_argument("--display",
                      dest="d",
                      help="Display Generated Image <True/False>",
-                     type=bool,
-                     default=False)
+                     type=str,
+                     default='False')
 
     par.add_argument("--save",
                      dest="s",
                      help="Save Output Image <True/False>",
-                     type=bool,
-                     default=True)
+                     type=str,
+                     default='True')
 
     par.add_argument("--out",
                      dest="out",
@@ -46,14 +45,14 @@ def parse_cli():
                      dest="heq",
                      help="Enable Adaptive Histogram Equalization "
                           "<True/False>",
-                     type=bool,
-                     default=False)
+                     type=str,
+                     default='False')
 
     par.add_argument("--post",
                      dest="post",
                      help="Apply Image Post Processing <True/False>",
-                     type=bool,
-                     default=False)
+                     type=str,
+                     default='False')
 
     par.add_argument("--units",
                      dest="u",
@@ -77,4 +76,35 @@ def parse_cli():
 
     args = par.parse_args()
 
+    args.heq = parse_bool(args.heq)
+    args.d = parse_bool(args.d)
+    args.s = parse_bool(args.s)
+    args.post = parse_bool(args.post)
+    
     return args
+
+
+def parse_bool(inpar):
+    """
+    convert CLI True or False string into boolean
+
+    :param inpar: input True or False string (True/False or T/F)
+    :return: outpar (bool)
+    """
+    import sys
+    msg = '[parse_cli] CLI must be either True/False. Exiting script...'
+
+    try:
+        if inpar.lower() == 'true' or inpar.lower() == 't':
+            outpar = True
+        elif inpar.lower() == 'false' or inpar.lower() == 'f':
+            outpar = False
+        else:
+            print(msg)
+            sys.exit()
+
+    except ValueError:
+        print(msg)
+        sys.exit()
+
+    return outpar
